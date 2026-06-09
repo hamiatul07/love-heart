@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filled Love</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#000;
+    overflow:hidden;
+    width:100vw;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial, sans-serif;
+}
+
+#heart{
+    position:relative;
+    width:800px;
+    height:700px;
+}
+
+.particle{
+    position:absolute;
+    color:#ff3366;
+    font-size:14px;
+    font-weight:bold;
+    white-space:nowrap;
+    opacity:0;
+    text-shadow:
+        0 0 5px #ff3366,
+        0 0 10px #ff3366,
+        0 0 20px #ff3366;
+    animation:show 1.5s forwards;
+}
+
+@keyframes show{
+    0%{
+        opacity:0;
+        transform:scale(0);
+    }
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+</style>
+</head>
+<body>
+
+<div id="heart"></div>
+
+<script>
+
+const heart = document.getElementById("heart");
+
+const points = [];
+
+// Membuat LOVE TERISI PENUH
+for(let i = 0; i < 2500; i++){
+
+    const t = Math.random() * Math.PI * 2;
+
+    // radius acak agar isi hati penuh
+    const scale = Math.random();
+
+    let x = scale * 16 * Math.pow(Math.sin(t),3);
+
+    let y = scale * (
+        13*Math.cos(t)
+        -5*Math.cos(2*t)
+        -2*Math.cos(3*t)
+        -Math.cos(4*t)
+    );
+
+    x *= 22;
+    y *= -22;
+
+    points.push({
+        x:400 + x,
+        y:350 + y
+    });
+}
+
+// Acak posisi kemunculan
+points.sort(() => Math.random() - 0.5);
+
+let index = 0;
+
+const interval = setInterval(() => {
+
+    if(index >= points.length){
+        clearInterval(interval);
+        return;
+    }
+
+    const p = points[index];
+
+    const text = document.createElement("div");
+    text.className = "particle";
+    text.innerText = "I Love You";
+
+    text.style.left = p.x + "px";
+    text.style.top = p.y + "px";
+
+    heart.appendChild(text);
+
+    index++;
+
+}, 20);
+
+</script>
+
+</body>
+</html>
